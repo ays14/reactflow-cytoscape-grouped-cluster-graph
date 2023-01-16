@@ -1,0 +1,1 @@
+export const getNodesEdgesForReactFlow = (edges: any, nodes: any) => { return { formattedEdges: edges, formattedNodes: nodes } };
