@@ -10,13 +10,21 @@ export default function App() {
 
   useEffect(() => {
     (async () => {
-      const { formattedEdges, formattedNodes } = await getNodesEdgesForReactFlow(mockEdges,mockNodes
+      const { rfNodes, rfEdges } = await getNodesEdgesForReactFlow(
+        mockNodes,
+        mockEdges
       );
 
-      setNodes(formattedNodes);
-      setEdges(formattedEdges);
+      console.log(rfNodes);
+
+      setNodes(rfNodes);
+      setEdges(rfEdges);
     })();
   }, []);
 
-  return (<div className="App">{nodes && (<ReactFlowGraph nodes={nodes} edges={edges} />)}</div>);
+  return (
+    <div className="App">
+      {nodes && <ReactFlowGraph nodes={nodes} edges={edges} />}
+    </div>
+  );
 }
