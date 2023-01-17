@@ -13,9 +13,12 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "cytoscape": "^3.23.0",
+    "cytoscape-cose-bilkent": "^4.1.0",
+    "cytoscape-dom-node": "^1.1.1",
     "cytoscape-fcose": "^2.1.0",
     "framer-motion": "^8.4.3",
     "react": "18.0.0",
+    "react-cytoscapejs": "^2.0.0",
     "react-dom": "18.0.0",
     "react-scripts": "^5.0.1",
     "reactflow": "^11.4.2"
@@ -24,6 +27,7 @@
     "@types/cytoscape": "^3.19.9",
     "@types/cytoscape-fcose": "^2.1.0",
     "@types/react": "18.0.25",
+    "@types/react-cytoscapejs": "^1.2.2",
     "@types/react-dom": "18.0.9",
     "prettier": "^2.8.3",
     "typescript": "4.4.2"

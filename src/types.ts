@@ -3,6 +3,7 @@ import { EdgeDefinition, NodeDefinition } from "cytoscape";
 export enum NodeType {
   IMAGE = "IMAGE",
   NAMESPACE = "NAMESPACE",
+  ROOT = "ROOT",
 }
 
 export interface IMockNode {

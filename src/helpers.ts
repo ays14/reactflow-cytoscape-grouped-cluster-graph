@@ -7,10 +7,36 @@ import {
   IReactFlowEdge,
 } from "./types";
 import cytoscape from "cytoscape";
-// import fcose from "cytoscape-fcose";
-// cytoscape.use(fcose);
+import fcose from "cytoscape-fcose";
+cytoscape.use(fcose);
 
 type CoordinateMap = Record<string, { x: number; y: number }>;
+
+const formatNodesForCytoscope = (nodes: IMockNode[]): ICytoscapeNode[] => {
+  return nodes.map((n) => {
+    const node: ICytoscapeNode = {
+      data: {
+        id: n.id,
+        label: n.name,
+      },
+      group: "nodes",
+    };
+    if (n.parent) node.data.parent = n.parent;
+    return node;
+  });
+};
+
+const formatEdgesForCytoscope = (edges: IMockEdge[]): ICytoscapeEdge[] => {
+  return edges.map((e) => ({
+    data: {
+      id: e.id,
+      label: e.id,
+      source: e.source,
+      target: e.target,
+    },
+    group: "edges",
+  }));
+};
 
 const getCoordinatesFromCytoscape = (
   nodes: IMockNode[],
@@ -20,23 +46,8 @@ const getCoordinatesFromCytoscape = (
   container.id = "cy";
   document.body.appendChild(container);
 
-  const cyNodes: ICytoscapeNode[] = nodes.map((n) => {
-    const node: ICytoscapeNode = {
-      data: {
-        id: n.id,
-      },
-    };
-    if (n.parent) node.data.parent = n.parent;
-    return node;
-  });
-  const cyEdges: ICytoscapeEdge[] = edges.map((e) => ({
-    data: {
-      id: e.id,
-      source: e.source,
-      target: e.target,
-    },
-  }));
-  console.log("cyNodes", cyNodes);
+  const cyNodes: ICytoscapeNode[] = formatNodesForCytoscope(nodes);
+  const cyEdges: ICytoscapeEdge[] = formatEdgesForCytoscope(edges);
 
   const cy = cytoscape({
     container: container,
@@ -47,7 +58,6 @@ const getCoordinatesFromCytoscape = (
   });
   cy.layout({
     name: "fcose",
-    // nodeSeparation: 10000,
   } as any).run();
 
   const nodeCoordinates = cy.nodes().map((node) => {
@@ -90,7 +100,7 @@ const formatNodesForReactFlow = (
   });
 };
 
-const formatEdgessForReactFlow = (edges: IMockEdge[]): IReactFlowEdge[] => {
+const formatEdgesForReactFlow = (edges: IMockEdge[]): IReactFlowEdge[] => {
   return edges.map((edge, index) => {
     return {
       ...edge,
@@ -110,6 +120,16 @@ export const getNodesEdgesForReactFlow = (
 
   return {
     rfNodes: formatNodesForReactFlow(nodes, coordinateMap),
-    rfEdges: formatEdgessForReactFlow(edges),
+    rfEdges: formatEdgesForReactFlow(edges),
+  };
+};
+
+export const getNodesEdgesForCytoscope = (
+  nodes: IMockNode[],
+  edges: IMockEdge[]
+): { cyNodes: ICytoscapeNode[]; cyEdges: ICytoscapeEdge[] } => {
+  return {
+    cyNodes: formatNodesForCytoscope(nodes),
+    cyEdges: formatEdgesForCytoscope(edges),
   };
 };

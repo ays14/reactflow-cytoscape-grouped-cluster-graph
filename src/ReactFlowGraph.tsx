@@ -1,20 +1,19 @@
 import { FC } from "react";
 import { Background, Controls, MiniMap, ReactFlow } from "reactflow";
-import { IReactFlowNode, IReactFlowEdge } from "./types";
+import { mockNodes, mockEdges } from "./mock";
 import { Box } from "@chakra-ui/react";
 import "reactflow/dist/style.css";
+import { getNodesEdgesForReactFlow } from "./helpers";
 
-interface ReactFlowGraphProps {
-  nodes: IReactFlowNode[];
-  edges: IReactFlowEdge[];
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface ReactFlowGraphProps {}
 
 const ReactFlowGraph: FC<ReactFlowGraphProps> = (props) => {
-  const { nodes, edges } = props;
+  const { rfNodes, rfEdges } = getNodesEdgesForReactFlow(mockNodes, mockEdges);
 
   return (
-    <Box position="absolute" h="100vh" w="100vw" className="rf-graph">
-      <ReactFlow nodes={nodes} edges={edges as any} fitView>
+    <Box className="rf-graph">
+      <ReactFlow nodes={rfNodes} edges={rfEdges as any}>
         <MiniMap />
         <Controls />
         <Background />

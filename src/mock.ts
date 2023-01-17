@@ -1,4 +1,4 @@
-import { IMockNode, NodeType } from "./types";
+import { IMockNode, NodeType, IMockEdge } from "./types";
 
 const response = {
   namespaces: [
@@ -138,6 +138,15 @@ const response = {
 };
 
 export const mockNodes: IMockNode[] = [];
+export const mockEdges: IMockEdge[] = [];
+
+// const dummyNamespaceNode: IMockNode = {
+//   type: NodeType.ROOT,
+//   id: "0",
+//   name: "Root",
+// };
+// mockNodes.push(dummyNamespaceNode);
+
 response.namespaces.forEach((ns) => {
   ns.images.forEach((i) => {
     mockNodes.push({
@@ -146,7 +155,13 @@ response.namespaces.forEach((ns) => {
       name: i.name,
       nodesCount: i.numOfRunningNodes,
       containersCount: i.numOfRunningContainers,
-      parent: ns.id
+      parent: ns.id,
+    });
+
+    mockEdges.push({
+      id: `${ns.id}_${i.id}`,
+      source: ns.id,
+      target: i.id,
     });
   });
   mockNodes.push({
@@ -154,6 +169,9 @@ response.namespaces.forEach((ns) => {
     id: ns.id,
     name: ns.name,
   });
-})
-
-export const mockEdges = [];
+  // mockEdges.push({
+  //   id: `${dummyNamespaceNode.id}_${ns.id}`,
+  //   source: dummyNamespaceNode.id,
+  //   target: ns.id,
+  // });
+});
