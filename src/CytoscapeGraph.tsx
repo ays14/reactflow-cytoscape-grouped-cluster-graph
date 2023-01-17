@@ -6,6 +6,8 @@ import CytoscapeComponent from "react-cytoscapejs";
 import cytoscape from "cytoscape";
 import fcose from "cytoscape-fcose";
 cytoscape.use(fcose);
+// import cise from "cytoscape-cise";
+// cytoscape.use(cise);
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface CytoscapeGraphProps {}
@@ -14,7 +16,7 @@ const CytoscapeGraph: FC<CytoscapeGraphProps> = (props) => {
   const { cyNodes, cyEdges } = getNodesEdgesForCytoscope(mockNodes, mockEdges);
 
   return (
-    <Box w="100vw" h="100vh" position="absolute" className="cy-graph">
+    <Box className="cy-graph" w="100%" h="100%">
       <CytoscapeComponent
         elements={[...cyNodes, ...cyEdges]}
         stylesheet={[
@@ -54,18 +56,18 @@ const CytoscapeGraph: FC<CytoscapeGraphProps> = (props) => {
             // nodeSeparation: 6300,
             // sampleSize: 400,
             // nodeRepulsion: () => 4500,
-            quality: "proof",
-            padding: "20px",
-            fit: true,
-            randomize: false,
-            nodeDimensionsIncludeLabels: true,
-            uniformNodeDimensions: true,
-            animate: false,
+            // quality: "proof",
+            // padding: "20px",
+            // fit: true,
+            // randomize: false,
+            // nodeDimensionsIncludeLabels: true,
+            // uniformNodeDimensions: true,
+            // animate: false,
           } as any
         }
-        minZoom={0.8}
-        maxZoom={5}
-        zoom={2}
+        // minZoom={0.8}
+        // maxZoom={5}
+        // zoom={2}
         style={{ width: "100%", height: "100%" }}
       />
     </Box>

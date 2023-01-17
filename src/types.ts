@@ -1,4 +1,6 @@
+import { Edge, Node } from "@reactflow/core";
 import { EdgeDefinition, NodeDefinition } from "cytoscape";
+import { NodeProps } from "reactflow";
 
 export enum NodeType {
   IMAGE = "IMAGE",
@@ -29,7 +31,7 @@ export interface ICytoscapeEdge extends EdgeDefinition {
   group?: "edges";
 }
 
-export interface IReactFlowNode {
+export type IReactFlowNode = Node & {
   id: string;
   data: {
     label: string;
@@ -38,14 +40,14 @@ export interface IReactFlowNode {
     x: number;
     y: number;
   };
+  type: "input" | "group" | "output" | "default" | "image" | "namespace";
   parentNode?: string;
-}
+};
 
-export interface IReactFlowEdge {
+export type IReactFlowEdge = Edge & {
   id: string;
-  markerEnd?: {
-    type: "arrowclosed";
-  };
   source: string;
   target: string;
-}
+};
+
+export type IReactFlowCustomNode<K> = NodeProps<K>;

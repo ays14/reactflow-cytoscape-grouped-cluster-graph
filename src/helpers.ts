@@ -7,8 +7,11 @@ import {
   IReactFlowEdge,
 } from "./types";
 import cytoscape from "cytoscape";
-import fcose from "cytoscape-fcose";
-cytoscape.use(fcose);
+// import fcose from "cytoscape-fcose";
+// cytoscape.use(fcose);
+import cise from "cytoscape-cise";
+import { mockNodes, response } from "./mock";
+cytoscape.use(cise);
 
 type CoordinateMap = Record<string, { x: number; y: number }>;
 
@@ -56,15 +59,41 @@ const getCoordinatesFromCytoscape = (
       edges: cyEdges,
     },
   });
+
   cy.layout({
-    name: "fcose",
+    name: "concentric",
+    // padding: 1,
+    // nodeSeparation: 1,
+    // clusters: response.namespaces.map((ns) => {
+    //   return ns.images.map((i) => i.id);
+    // }),
+    // fit: true,
+    // idealInterClusterEdgeLengthCoefficient: 1,
+    // springCoeff: 1,
+
+    // nodeSeparation: 1,
+    // sampleSize: 400,
+    // nodeRepulsion: () => 4500,
+    // quality: "proof",
+    // padding: "2px",
+    // fit: true,
+    // randomize: false,
+    // nodeDimensionsIncludeLabels: true,
+    // uniformNodeDimensions: true,
+    // alignmentConstraint: {
+    //   horizontal: [
+    //     ["aws", "lambda", "lambda-1"],
+    //     // ["monitoring", "monitoring-1"],
+    //   ],
+    // },
+    animate: false,
   } as any).run();
 
   const nodeCoordinates = cy.nodes().map((node) => {
     return {
       id: node.id(),
-      x: node.position("x"),
-      y: node.position("y"),
+      x: Number(node.position("x").toFixed(0)),
+      y: Number(node.position("y").toFixed(0)),
     };
   });
 
@@ -94,8 +123,15 @@ const formatNodesForReactFlow = (
         x,
         y,
       },
+      type: "namespace",
+      connectable: false,
+      expandParent: true,
     };
-    if (node.parent) rfNode.parentNode = node.parent;
+    if (node.parent) {
+      rfNode.parentNode = node.parent;
+      rfNode.type = "image";
+      rfNode.extent = "parent";
+    }
     return rfNode;
   });
 };
@@ -105,7 +141,6 @@ const formatEdgesForReactFlow = (edges: IMockEdge[]): IReactFlowEdge[] => {
     return {
       ...edge,
       id: `edge${index}`,
-      markerEnd: { type: "arrowclosed" },
       source: edge.source,
       target: edge.target,
     };
