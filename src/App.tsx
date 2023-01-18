@@ -3,18 +3,19 @@ import CytoscapeGraph from "./CytoscapeGraph";
 import CytoscapeReactGraph from "./CytoscapeReactGraph";
 import { useState } from "react";
 import { Box, Button, Stack } from "@chakra-ui/react";
+// import D3Graph from "./D3Graph";
 
 enum Screen {
   ReactFlow = "ReactFlow",
   Cytoscape = "Cytoscape",
   CytoscapeReact = "CytoscapeReact",
+  // D3Graph = "D3Graph",
 }
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>(
-    (window.localStorage.getItem("screen") as Screen) || Screen.ReactFlow
+    (window.localStorage.getItem("screen") as Screen) || Screen.Cytoscape
   );
-  console.log(screen);
 
   const renderScreen = () => {
     switch (screen) {
@@ -24,8 +25,10 @@ export default function App() {
         return <CytoscapeGraph />;
       case Screen.CytoscapeReact:
         return <CytoscapeReactGraph />;
+      // case Screen.D3Graph:
+      // return <D3Graph />;
       default:
-        return <ReactFlowGraph />;
+        return <CytoscapeGraph />;
     }
   };
 

@@ -20,12 +20,7 @@ const ReactFlowGraph: FC<ReactFlowGraphProps> = (props) => {
 
   return (
     <Box className="rf-graph" w="100%" h="100%">
-      <ReactFlow
-        nodeTypes={nodeTypes}
-        nodes={rfNodes}
-        edges={[]}
-        fitView={false}
-      >
+      <ReactFlow nodeTypes={nodeTypes} nodes={rfNodes} edges={rfEdges} fitView>
         <MiniMap />
         <Controls />
         <Background />

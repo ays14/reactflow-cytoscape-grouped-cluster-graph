@@ -390,7 +390,6 @@ response.namespaces.forEach((ns) => {
       name: i.name,
       nodesCount: i.numOfRunningNodes,
       containersCount: i.numOfRunningContainers,
-      parent: ns.id,
     });
 
     mockEdges.push({

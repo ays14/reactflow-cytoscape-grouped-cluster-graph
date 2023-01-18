@@ -1,5 +1,6 @@
 import { Edge, Node } from "@reactflow/core";
 import { EdgeDefinition, NodeDefinition } from "cytoscape";
+import { GraphData, GraphLink, GraphNode } from "react-d3-graph";
 import { NodeProps } from "reactflow";
 
 export enum NodeType {
@@ -51,3 +52,9 @@ export type IReactFlowEdge = Edge & {
 };
 
 export type IReactFlowCustomNode<K> = NodeProps<K>;
+
+export type ID3GraphNode = GraphNode;
+
+export type ID3GraphEdge = GraphLink;
+
+export type ID3GraphData = GraphData<ID3GraphNode, ID3GraphEdge>;

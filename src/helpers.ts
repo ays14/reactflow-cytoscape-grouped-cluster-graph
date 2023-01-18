@@ -5,13 +5,14 @@ import {
   ICytoscapeEdge,
   IReactFlowNode,
   IReactFlowEdge,
+  NodeType,
+  ID3GraphEdge,
+  ID3GraphNode,
+  ID3GraphData,
 } from "./types";
 import cytoscape from "cytoscape";
-// import fcose from "cytoscape-fcose";
-// cytoscape.use(fcose);
-import cise from "cytoscape-cise";
-import { mockNodes, response } from "./mock";
-cytoscape.use(cise);
+import fcose from "cytoscape-fcose";
+cytoscape.use(fcose);
 
 type CoordinateMap = Record<string, { x: number; y: number }>;
 
@@ -19,6 +20,7 @@ const formatNodesForCytoscope = (nodes: IMockNode[]): ICytoscapeNode[] => {
   return nodes.map((n) => {
     const node: ICytoscapeNode = {
       data: {
+        ...n,
         id: n.id,
         label: n.name,
       },
@@ -61,7 +63,7 @@ const getCoordinatesFromCytoscape = (
   });
 
   cy.layout({
-    name: "concentric",
+    name: "fcose",
     // padding: 1,
     // nodeSeparation: 1,
     // clusters: response.namespaces.map((ns) => {
@@ -74,7 +76,7 @@ const getCoordinatesFromCytoscape = (
     // nodeSeparation: 1,
     // sampleSize: 400,
     // nodeRepulsion: () => 4500,
-    // quality: "proof",
+    quality: "proof",
     // padding: "2px",
     // fit: true,
     // randomize: false,
@@ -124,13 +126,15 @@ const formatNodesForReactFlow = (
         y,
       },
       type: "namespace",
-      connectable: false,
-      expandParent: true,
+      // expandParent: true,
+      // connectable: false,
     };
-    if (node.parent) {
-      rfNode.parentNode = node.parent;
+    if (node.type === NodeType.IMAGE) {
       rfNode.type = "image";
-      rfNode.extent = "parent";
+      // rfNode.parentNode = node.parent;
+      // rfNode.extent = "parent";
+    } else if (node.type === NodeType.NAMESPACE) {
+      rfNode.type = "namespace";
     }
     return rfNode;
   });
@@ -141,6 +145,23 @@ const formatEdgesForReactFlow = (edges: IMockEdge[]): IReactFlowEdge[] => {
     return {
       ...edge,
       id: `edge${index}`,
+      source: edge.source,
+      target: edge.target,
+    };
+  });
+};
+
+const formatNodesForD3Graph = (nodes: IMockNode[]): ID3GraphNode[] => {
+  return nodes.map((node) => {
+    return {
+      id: node.id,
+    };
+  });
+};
+
+const formatEdgesForD3Graph = (edges: IMockEdge[]): ID3GraphEdge[] => {
+  return edges.map((edge) => {
+    return {
       source: edge.source,
       target: edge.target,
     };
@@ -166,5 +187,15 @@ export const getNodesEdgesForCytoscope = (
   return {
     cyNodes: formatNodesForCytoscope(nodes),
     cyEdges: formatEdgesForCytoscope(edges),
+  };
+};
+
+export const getNodesEdgesForD3Graph = (
+  nodes: IMockNode[],
+  edges: IMockEdge[]
+): ID3GraphData => {
+  return {
+    nodes: formatNodesForD3Graph(nodes),
+    links: formatEdgesForD3Graph(edges),
   };
 };
