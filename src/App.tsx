@@ -3,12 +3,16 @@ import CytoscapeGraph from "./CytoscapeGraph";
 import CytoscapeReactGraph from "./CytoscapeReactGraph";
 import { useState } from "react";
 import { Box, Button, Stack } from "@chakra-ui/react";
+import NivoNetworkGraph from "./NivoNetworkGraph";
+import ReactForceGraph from "./ReactForceGraph";
 // import D3Graph from "./D3Graph";
 
 enum Screen {
   ReactFlow = "ReactFlow",
   Cytoscape = "Cytoscape",
   CytoscapeReact = "CytoscapeReact",
+  NivoNetwork = "NivoNetwork",
+  ReactForceGraph = "ReactForceGraph",
   // D3Graph = "D3Graph",
 }
 
@@ -25,10 +29,14 @@ export default function App() {
         return <CytoscapeGraph />;
       case Screen.CytoscapeReact:
         return <CytoscapeReactGraph />;
+      case Screen.NivoNetwork:
+        return <NivoNetworkGraph />;
+      case Screen.ReactForceGraph:
+        return <ReactForceGraph />;
       // case Screen.D3Graph:
       // return <D3Graph />;
       default:
-        return <CytoscapeGraph />;
+        return <NivoNetworkGraph />;
     }
   };
 

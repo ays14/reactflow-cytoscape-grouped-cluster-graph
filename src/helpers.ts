@@ -9,6 +9,10 @@ import {
   ID3GraphEdge,
   ID3GraphNode,
   ID3GraphData,
+  INivoNetworkNode,
+  INivoNetworkEdge,
+  IReactForceNode,
+  IReactForceEdge,
 } from "./types";
 import cytoscape from "cytoscape";
 import fcose from "cytoscape-fcose";
@@ -24,6 +28,7 @@ const formatNodesForCytoscope = (nodes: IMockNode[]): ICytoscapeNode[] => {
         id: n.id,
         label: n.name,
       },
+
       group: "nodes",
     };
     if (n.parent) node.data.parent = n.parent;
@@ -168,6 +173,52 @@ const formatEdgesForD3Graph = (edges: IMockEdge[]): ID3GraphEdge[] => {
   });
 };
 
+const formatNodesForReactForceGraph = (
+  nodes: IMockNode[]
+): IReactForceNode[] => {
+  return nodes.map((node) => {
+    const n: any = {
+      ...node,
+      id: node.id,
+      name: node.name,
+    };
+    if (node.type === NodeType.NAMESPACE) {
+      n.val = 10;
+    } else if (node.type === NodeType.IMAGE) {
+      n.val = 1;
+    }
+    return n;
+  });
+};
+
+const formatEdgesForReactForceGraph = (
+  edges: IMockEdge[]
+): IReactForceEdge[] => {
+  return edges.map((edge) => {
+    return {
+      source: edge.source,
+      target: edge.target,
+    };
+  });
+};
+
+const formatNodesForNivoNetwork = (nodes: IMockNode[]): INivoNetworkNode[] => {
+  return nodes.map((node) => {
+    return {
+      id: node.id,
+    };
+  });
+};
+
+const formatEdgesForNivoNetwork = (edges: IMockEdge[]): INivoNetworkEdge[] => {
+  return edges.map((edge) => {
+    return {
+      source: edge.source,
+      target: edge.target,
+    };
+  });
+};
+
 export const getNodesEdgesForReactFlow = (
   nodes: IMockNode[],
   edges: IMockEdge[]
@@ -199,3 +250,24 @@ export const getNodesEdgesForD3Graph = (
     links: formatEdgesForD3Graph(edges),
   };
 };
+
+export const getNodesEdgesForNivoNetwork = (
+  nodes: IMockNode[],
+  edges: IMockEdge[]
+): { nodes: INivoNetworkNode[]; links: INivoNetworkEdge[] } => {
+  return {
+    nodes: formatNodesForNivoNetwork(nodes),
+    links: formatEdgesForNivoNetwork(edges),
+  };
+};
+
+export const getNodesEdgesForReactForce = (
+  nodes: IMockNode[],
+  edges: IMockEdge[]
+): { nodes: IReactForceNode[]; links: IReactForceEdge[] } => {
+  return {
+    nodes: formatNodesForReactForceGraph(nodes),
+    links: formatEdgesForReactForceGraph(edges),
+  };
+};
+

@@ -9,9 +9,9 @@ const rootElement = document.getElementById("root");
 const root = createRoot(rootElement!);
 
 root.render(
-  <StrictMode>
-    <ChakraProvider>
-      <App />
-    </ChakraProvider>
-  </StrictMode>
+  // <StrictMode>
+  <ChakraProvider>
+    <App />
+  </ChakraProvider>
+  // </StrictMode>
 );
